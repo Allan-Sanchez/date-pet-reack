@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from "react";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
+import PropTypes from 'prop-types';
 
-
-const Form = () => {
+const Form = ({ createQuery }) => {
   //create date
   const [date, setDate] = useState({
     name: "",
@@ -35,15 +35,25 @@ const Form = () => {
       hourPet.trim() === "" ||
       description.trim() === ""
     ) {
-        setError(true);
-        return;
+      setError(true);
+      return;
     }
 
     setError(false);
 
     //adde id
-    date.id =uuidv4();
-    console.log(date);
+    date.id = uuidv4();
+    createQuery(date);
+
+    //reset form
+    setDate({
+      name: "",
+      owner: "",
+      datePet: "",
+      hourPet: "",
+      description: "",
+    });
+    // console.log(date);
   };
   return (
     <Fragment>
@@ -143,4 +153,7 @@ const Form = () => {
   );
 };
 
+Form.propTypes= {
+  createQuery:PropTypes.func.isRequired
+}
 export default Form;
